@@ -47,8 +47,8 @@ func (c *ContextBuilder) AddTime(name string, datetime time.Time) *ContextBuilde
 	return c.AddFormatter(name, TimeFormatter(datetime))
 }
 
-// BuildContext retrieves context object from the builder
-func (c *ContextBuilder) BuildContext() (Context, error) {
+// Build retrieves context object from the builder
+func (c *ContextBuilder) Build() (Context, error) {
 	if c.err != nil {
 		return nil, c.err
 	}

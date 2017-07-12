@@ -13,7 +13,7 @@ func TestFormat(t *testing.T) {
 	builder.AddFormatter("date", TimeFormatter(time.Date(2016, 9, 10, 11, 12, 13, 0, time.UTC)))
 	builder.AddFormatter("path", StringFormatter("/path/to/logs"))
 	builder.AddFormatter("num", IntFormatter(12))
-	context, err := builder.BuildContext()
+	context, err := builder.Build()
 	if err != nil {
 		t.Fatal(err)
 	}
