@@ -43,7 +43,7 @@ Date arithmetics allows following delta values:
 * minute/minutes
 * second/seconds
 
-Where *year* and *years* are equivalent (*5 years* is nicer than *5 year*, just like *1 year* is prefered over *1 years*).
+Where *year* and *years* (and other couples) are equivalent (*5 years* is nicer than *5 year*, just like *1 year* is prefered over *1 years*).
 There's a limitation though, longer period must precedes shorter one, i.e. the following expression is valid
 
 ```
