@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"time"
 
-	format "github.com/DenisCheremisov/go-format"
+	format "github.com/glossina/go-format"
 )
 
 func main() {
