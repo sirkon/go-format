@@ -1,7 +1,12 @@
 # go-format
 Simple string formatting tool with date arithmetics and format (strftime) support
 
-Example
+### Retrieval
+```bash
+go get github.com/glossina/go-format
+```
+
+### Example
 
 ```go
 package main
