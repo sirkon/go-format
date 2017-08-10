@@ -3,7 +3,7 @@ Simple string formatting tool with date arithmetics and format (strftime) suppor
 
 ### Retrieval
 ```bash
-go get github.com/glossina/go-format
+go get github.com/sirkon/go-format
 ```
 
 ### Example
