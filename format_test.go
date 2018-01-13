@@ -10,9 +10,11 @@ import (
 
 func TestFormat(t *testing.T) {
 	builder := NewContextBuilder()
-	builder.AddFormatter("date", TimeFormatter(time.Date(2016, 9, 10, 11, 12, 13, 0, time.UTC)))
-	builder.AddFormatter("path", StringFormatter("/path/to/logs"))
-	builder.AddFormatter("num", IntFormatter(12))
+	builder.AddFormatter("date", timeFormatter(time.Date(2016, 9, 10, 11, 12, 13, 0, time.UTC)))
+	builder.AddFormatter("path", stringFormatter("/path/to/logs"))
+	builder.AddFormatter("num", intFormatter{
+		int(12),
+	})
 	context, err := builder.Build()
 	if err != nil {
 		t.Fatal(err)
@@ -97,7 +99,7 @@ func TestClarify(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	date := TimeFormatter(time.Date(1982, 10, 19, 18, 22, 33, 0, moscow))
+	date := timeFormatter(time.Date(1982, 10, 19, 18, 22, 33, 0, moscow))
 	date2, err := date.MapDelta("+ 1 year")
 	if err != nil {
 		t.Fatal(err)
@@ -105,4 +107,8 @@ func TestClarify(t *testing.T) {
 	if !assert.Equal(t, time.Time(date).AddDate(1, 0, 0), date2) {
 		return
 	}
+}
+
+func TestFormatf(t *testing.T) {
+	require.Equal(t, "a 2 4.5 2 2018", Formatf("${} ${} ${|1.1} ${1} ${|%Y}", "a", 2, 4.5, time.Date(2018, 10, 19, 18, 0, 5, 0, time.UTC)))
 }

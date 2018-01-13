@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-// StringFormatter formatting primitive
-type StringFormatter string
+// stringFormatter formatting primitive
+type stringFormatter string
 
 // Clarify formatter implementation
-func (f StringFormatter) Clarify(a string) (Formatter, error) {
+func (f stringFormatter) Clarify(a string) (Formatter, error) {
 	if len(strings.TrimSpace(a)) != 0 {
 		return f, fmt.Errorf("No clarification available for string formatters")
 	}
@@ -17,7 +17,7 @@ func (f StringFormatter) Clarify(a string) (Formatter, error) {
 }
 
 // Format formatter implementation
-func (f StringFormatter) Format(a string) (string, error) {
+func (f stringFormatter) Format(a string) (string, error) {
 	if len(strings.TrimSpace(a)) != 0 {
 		return string(f), fmt.Errorf("No clarification available for string formatters")
 	}

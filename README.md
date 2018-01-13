@@ -15,13 +15,13 @@ import (
 	"fmt"
 	"time"
 
-	format "github.com/glossina/go-format"
+	format "github.com/sirkon/go-format"
 )
 
 func main() {
 	bctx := format.NewContextBuilder()
 	bctx.AddString("name", "explosion")
-	bctx.AddInt("count", 15)
+	bctx.AddInteger("count", 15)
 	bctx.AddTime("time", time.Date(2006, 1, 2, 3, 4, 5, 0, time.UTC))
 	ctx, err := bctx.Build()
 	if err != nil {
@@ -34,6 +34,24 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(res)
+}
+```
+
+Also, there's a simplified function with positional parameters
+
+```go
+package main
+
+import (
+ 	"fmt"
+ 	"time"
+ 
+ 	format "github.com/sirkon/go-format"
+ )
+
+func main() {
+	res := format.Formatf("wake up at ${|%H:%M}, the call will be repeated ${} times", time.Date(2006, 1, 2, 3, 4, 5, 0, time.UTC), 5)
 	fmt.Println(res)
 }
 ```

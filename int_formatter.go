@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
-// IntFormatter ...
-type IntFormatter int
+// intFormatter ...
+type intFormatter struct {
+	value interface{}
+}
 
 // Clarify formatter implementation
-func (f IntFormatter) Clarify(a string) (Formatter, error) {
+func (f intFormatter) Clarify(a string) (Formatter, error) {
 	if len(strings.TrimSpace(a)) != 0 {
 		return f, fmt.Errorf("No clarification available for string formatters")
 	}
@@ -17,6 +19,6 @@ func (f IntFormatter) Clarify(a string) (Formatter, error) {
 }
 
 // Format formatter implementation
-func (f IntFormatter) Format(a string) (string, error) {
-	return fmt.Sprintf("%"+a+"d", int(f)), nil
+func (f intFormatter) Format(a string) (string, error) {
+	return fmt.Sprintf("%"+a+"d", f.value), nil
 }

@@ -2,6 +2,7 @@ package format
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -11,6 +12,8 @@ type Splitter struct {
 	orig    string
 	rest    string
 	context Context
+
+	count int
 
 	err error
 	cur string
@@ -55,15 +58,19 @@ func nipString(content string) (res string, rest string, err error) {
 
 func nipIdentifier(content string) (string, string, error) {
 	if len(content) == 0 {
-		return "", "", fmt.Errorf("Expected heading identifier, got empty string instead")
+		return "", "", fmt.Errorf("Expected heading identifier or }, got empty string instead")
 	}
-	if !(unicode.IsLetter(rune(content[0])) || content[0] == '_') {
-		return "", "", fmt.Errorf("Expected heading identifier in %s", content)
+	if content[0] == '|' || content[0] == '}' {
+		return "", content, nil
 	}
 	i := 0
 	for i < len(content) && (unicode.IsLetter(rune(content[i])) || unicode.IsDigit(rune(content[i])) || content[i] == '_') {
 		i++
 	}
+	if i == 0 {
+		return "", "", fmt.Errorf("Expected heading identifier in %s", content)
+	}
+
 	return content[:i], content[i:], nil
 }
 
@@ -136,6 +143,10 @@ func (s *Splitter) Split() bool {
 	if err != nil {
 		s.err = err
 		return false
+	}
+	if len(ident) == 0 {
+		ident = strconv.Itoa(s.count)
+		s.count++
 	}
 	formatter, err := s.context.GetFormatter(ident)
 	if err != nil {

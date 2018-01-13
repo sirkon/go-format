@@ -71,11 +71,11 @@ func restMatcher(rest []string, singular string, handler func(int) time.Time) (r
 	return handler(0), false, nil
 }
 
-// TimeFormatter formatter
-type TimeFormatter time.Time
+// timeFormatter formatter
+type timeFormatter time.Time
 
 // MapDelta returnes shifted time object compared to the original value
-func (d TimeFormatter) MapDelta(delta string) (datetime time.Time, err error) {
+func (d timeFormatter) MapDelta(delta string) (datetime time.Time, err error) {
 	datetime = time.Time(d)
 
 	delta = strings.TrimSpace(delta)
@@ -183,15 +183,15 @@ func (d TimeFormatter) MapDelta(delta string) (datetime time.Time, err error) {
 }
 
 // Clarify formatter implementation
-func (d TimeFormatter) Clarify(delta string) (Formatter, error) {
+func (d timeFormatter) Clarify(delta string) (Formatter, error) {
 	datetime, err := d.MapDelta(delta)
 	if err != nil {
 		return nil, err
 	}
-	return TimeFormatter(datetime), err
+	return timeFormatter(datetime), err
 }
 
 // Format formatter implementation
-func (d TimeFormatter) Format(format string) (string, error) {
+func (d timeFormatter) Format(format string) (string, error) {
 	return strftime.Format(format, time.Time(d))
 }
