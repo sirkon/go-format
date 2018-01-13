@@ -1,6 +1,7 @@
 package format
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -45,6 +46,10 @@ func Formatf(format string, a ...interface{}) string {
 			bctx.AddString(key, v)
 		case time.Time:
 			bctx.AddTime(key, v)
+		case Formatter:
+			bctx.AddFormatter(key, v)
+		case fmt.Stringer:
+			bctx.AddString(key, v.String())
 		default:
 			bctx.AddValue(key, value)
 		}
