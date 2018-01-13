@@ -1,0 +1,10 @@
+sudo: false
+language: go
+go:
+  - 1.9.x
+
+install:
+  - go get -v -d -t github.com/sirkon/go-format
+
+script:
+  - make test
