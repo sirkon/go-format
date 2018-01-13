@@ -1,4 +1,6 @@
 # go-format
+[![Build Status](https://travis-ci.org/sirkon/go-format.svg?branch=master)](https://travis-ci.org/sirkon/go-format)
+
 Simple string formatting tool with date arithmetics and format (strftime) support
 
 ### Retrieval
