@@ -78,6 +78,15 @@ func nipIdentifier(content string) (string, string, error) {
 	return content[:i], content[i:], nil
 }
 
+func nipOpenIdentifier(content string) (string, string, error) {
+	i := 0
+	for i < len(content) && (unicode.IsLetter(rune(content[i])) || unicode.IsDigit(rune(content[i])) || content[i] == '_') {
+		i++
+	}
+
+	return content[:i], content[i:], nil
+}
+
 func locateABuck(rest string) int {
 	for i := 0; i < len(rest); i++ {
 		if rest[i] == '$' {
@@ -110,32 +119,46 @@ func (s *Splitter) Split() bool {
 		return true
 	}
 
-	if len(s.rest) == 0 {
-		s.err = fmt.Errorf("Single $ at the end of line, did you mean $$?")
-		return false
-	}
-
 	var ident string
 	var err error
-	if unicode.IsLetter(rune(s.rest[1])) || s.rest[1] == '_' {
-		// This is a simple subsitution
-		s.rest = s.rest[1:]
-		ident, s.rest, err = nipIdentifier(s.rest)
-		if err != nil {
-			s.err = err
-			return false
-		}
-		formatter, err := s.context.GetFormatter(ident)
+	var formatter Formatter
+
+	if len(s.rest) == 0 {
+		ident = strconv.Itoa(s.count)
+		s.count++
+		formatter, err = s.context.GetFormatter(ident)
 		if err != nil {
 			s.err = err
 			return false
 		}
 		s.cur, s.err = formatter.Format("")
 		return s.err == nil
-	}
-
-	if s.rest[1] != '{' {
-		s.err = fmt.Errorf("Single $, letter, or `_` or { expected: `\033[1m%s\033[0m`", s.rest)
+	} else if unicode.IsDigit(rune(s.rest[1])) || unicode.IsLetter(rune(s.rest[1])) || s.rest[1] == '_' {
+		// This is a simple subsitution
+		s.rest = s.rest[1:]
+		ident, s.rest, err = nipOpenIdentifier(s.rest)
+		if err != nil {
+			s.err = err
+			return false
+		}
+		formatter, err = s.context.GetFormatter(ident)
+		if err != nil {
+			s.err = err
+			return false
+		}
+		s.cur, s.err = formatter.Format("")
+		return s.err == nil
+	} else if s.rest[1] != '{' {
+		ident = strconv.Itoa(s.count)
+		s.count++
+		formatter, err := s.context.GetFormatter(ident)
+		if err != nil {
+			s.err = err
+			return false
+		}
+		s.cur, s.err = formatter.Format("")
+		s.rest = s.rest[1:]
+		return s.err == nil
 	}
 
 	// This is a format!
@@ -152,7 +175,7 @@ func (s *Splitter) Split() bool {
 		ident = strconv.Itoa(s.count)
 		s.count++
 	}
-	formatter, err := s.context.GetFormatter(ident)
+	formatter, err = s.context.GetFormatter(ident)
 	if err != nil {
 		s.err = err
 		return false

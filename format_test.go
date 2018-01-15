@@ -114,6 +114,7 @@ func TestClarify(t *testing.T) {
 
 func TestFormatf(t *testing.T) {
 	require.Equal(t, "a 2 4.5 2 2018", Formatp("${} ${} ${|1.1} ${1} ${|%Y}", "a", 2, 4.5, time.Date(2018, 10, 19, 18, 0, 5, 0, time.UTC)))
+	require.Equal(t, "a a", Formatp("$ $0", "a"))
 }
 
 func TestFormatm(t *testing.T) {
