@@ -20,5 +20,5 @@ func (f valueFormatter) Clarify(a string) (Formatter, error) {
 
 // Format formatter implementation
 func (f valueFormatter) Format(a string) (string, error) {
-	return fmt.Sprintf("%#"+a+"v", f.value), nil
+	return fmt.Sprintf("%"+a+"v", f.value), nil
 }

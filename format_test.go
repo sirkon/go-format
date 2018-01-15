@@ -12,8 +12,8 @@ func TestFormat(t *testing.T) {
 	builder := NewContextBuilder()
 	builder.AddFormatter("date", timeFormatter(time.Date(2016, 9, 10, 11, 12, 13, 0, time.UTC)))
 	builder.AddFormatter("path", stringFormatter("/path/to/logs"))
-	builder.AddFormatter("num", intFormatter{
-		int(12),
+	builder.AddFormatter("num", i8Formatter{
+		int8(12),
 	})
 	context, err := builder.Build()
 	if err != nil {
@@ -93,7 +93,7 @@ func TestFormat(t *testing.T) {
 	}
 	require.Equal(t, "/path/to/logs abc", res)
 
-	res = Formatf("${+1 day|%Y-%m-%d}", time.Date(2018, 1, 15, 0, 0, 0, 0, time.UTC))
+	res = Formatp("${+1 day|%Y-%m-%d}", time.Date(2018, 1, 15, 0, 0, 0, 0, time.UTC))
 	require.Equal(t, "2018-01-16", res)
 }
 
@@ -113,5 +113,13 @@ func TestClarify(t *testing.T) {
 }
 
 func TestFormatf(t *testing.T) {
-	require.Equal(t, "a 2 4.5 2 2018", Formatf("${} ${} ${|1.1} ${1} ${|%Y}", "a", 2, 4.5, time.Date(2018, 10, 19, 18, 0, 5, 0, time.UTC)))
+	require.Equal(t, "a 2 4.5 2 2018", Formatp("${} ${} ${|1.1} ${1} ${|%Y}", "a", 2, 4.5, time.Date(2018, 10, 19, 18, 0, 5, 0, time.UTC)))
+}
+
+func TestFormatm(t *testing.T) {
+	require.Equal(t, "a 2 4.5", Formatm("${key} ${num} ${float|1.1}", map[string]interface{}{
+		"key":   "a",
+		"num":   2,
+		"float": 4.5,
+	}))
 }
