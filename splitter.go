@@ -67,6 +67,10 @@ func nipIdentifier(content string) (string, string, error) {
 	for i < len(content) && (unicode.IsLetter(rune(content[i])) || unicode.IsDigit(rune(content[i])) || content[i] == '_') {
 		i++
 	}
+	if content[0] == '+' || content[0] == '-' {
+		// must be date arithmetic
+		return "", content, nil
+	}
 	if i == 0 {
 		return "", "", fmt.Errorf("Expected heading identifier in %s", content)
 	}

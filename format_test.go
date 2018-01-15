@@ -92,6 +92,9 @@ func TestFormat(t *testing.T) {
 		t.Fatal(err)
 	}
 	require.Equal(t, "/path/to/logs abc", res)
+
+	res = Formatf("${+1 day|%Y-%m-%d}", time.Date(2018, 1, 15, 0, 0, 0, 0, time.UTC))
+	require.Equal(t, "2018-01-16", res)
 }
 
 func TestClarify(t *testing.T) {
