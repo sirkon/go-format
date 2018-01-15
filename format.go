@@ -4,6 +4,9 @@ import (
 	"strconv"
 )
 
+// Values is easier than map[string]interface{}
+type Values = map[string]interface{}
+
 // Format function
 func Format(format string, context Context) (string, error) {
 	splitter := NewSplitter(format, context)
@@ -33,7 +36,7 @@ func Formatp(format string, a ...interface{}) string {
 }
 
 // Formatm is a formatting with keys from given map
-func Formatm(format string, data map[string]interface{}) string {
+func Formatm(format string, data Values) string {
 	bctx := NewContextBuilder()
 	for key, value := range data {
 		bctx.Add(key, value)

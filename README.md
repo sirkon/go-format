@@ -3,27 +3,51 @@
 
 Simple string formatting tool with date arithmetics and format (strftime) support
 
-### Retrieval
+### Installation
 ```bash
 go get github.com/sirkon/go-format
+```
+or
+```bash
+dep ensure -add github.com/sirkon/go-format
 ```
 
 ### Example
 
+##### Positional parameters, you can use `${1}`, `${2}` to address specific parameter (by number)
+```go
+t := time.Date(2006, 1, 2, 3, 4, 5, 0, time.UTC)
+res := format.Formatp("wake up at ${|%H:%M}, the call will be repeated ${} times", t, 5)
+fmt.Println(res)
+```
+
+##### Named parameters via map[string]interface{}
+```go
+res := format.Formatm("${name} $count ${weight|1.1}", format.Values{
+	"name": "name",
+	"count": 12,
+	"weight": 0.79,
+})
+fmt.Println(res)
+```
+
+##### Harder usage
 ```go
 package main
+
 
 import (
 	"fmt"
 	"time"
-
-	format "github.com/sirkon/go-format"
+	
+	"github.com/sirkon/go-format"
 )
+
 
 func main() {
 	bctx := format.NewContextBuilder()
 	bctx.AddString("name", "explosion")
-	bctx.AddInteger("count", 15)
+	bctx.AddInt("count", 15)
 	bctx.AddTime("time", time.Date(2006, 1, 2, 3, 4, 5, 0, time.UTC))
 	ctx, err := bctx.Build()
 	if err != nil {
@@ -42,21 +66,7 @@ func main() {
 
 Also, there's a simplified function with positional parameters
 
-```go
-package main
 
-import (
- 	"fmt"
- 	"time"
- 
- 	format "github.com/sirkon/go-format"
- )
-
-func main() {
-	res := format.Formatf("wake up at ${|%H:%M}, the call will be repeated ${} times", time.Date(2006, 1, 2, 3, 4, 5, 0, time.UTC), 5)
-	fmt.Println(res)
-}
-```
 
 Date arithmetics allows following delta values:
 
