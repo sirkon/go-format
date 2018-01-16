@@ -64,7 +64,7 @@ func nipIdentifier(content string) (string, string, error) {
 		return "", content, nil
 	}
 	i := 0
-	for i < len(content) && (unicode.IsLetter(rune(content[i])) || unicode.IsDigit(rune(content[i])) || content[i] == '_') {
+	for i < len(content) && isWord(rune(content[i])) {
 		i++
 	}
 	if content[0] == '+' || content[0] == '-' {
@@ -78,9 +78,13 @@ func nipIdentifier(content string) (string, string, error) {
 	return content[:i], content[i:], nil
 }
 
+func isWord(r rune) bool {
+	return unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_' || r == '.'
+}
+
 func nipOpenIdentifier(content string) (string, string, error) {
 	i := 0
-	for i < len(content) && (unicode.IsLetter(rune(content[i])) || unicode.IsDigit(rune(content[i])) || content[i] == '_') {
+	for i < len(content) && isWord(rune(content[i])) {
 		i++
 	}
 
@@ -133,7 +137,7 @@ func (s *Splitter) Split() bool {
 		}
 		s.cur, s.err = formatter.Format("")
 		return s.err == nil
-	} else if unicode.IsDigit(rune(s.rest[1])) || unicode.IsLetter(rune(s.rest[1])) || s.rest[1] == '_' {
+	} else if isWord(rune(s.rest[1])) {
 		// This is a simple subsitution
 		s.rest = s.rest[1:]
 		ident, s.rest, err = nipOpenIdentifier(s.rest)

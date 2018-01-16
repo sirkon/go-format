@@ -133,7 +133,7 @@ func (c *ContextBuilder) AddValue(name string, value interface{}) *ContextBuilde
 	})
 }
 
-// Add adds formatter with optional
+// Add adds formatter with type guessing
 func (c *ContextBuilder) Add(name string, value interface{}) *ContextBuilder {
 	switch v := value.(type) {
 	case int:

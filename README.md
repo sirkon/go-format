@@ -31,7 +31,40 @@ res := format.Formatm("${name} $count ${weight|1.1}", format.Values{
 fmt.Println(res)
 ```
 
-##### Harder usage
+##### Named parameters via type guesses
+```go
+var s struct {
+	A string
+	Field int
+}
+s.A = "str"
+s.Field = 12
+res := format.Formatg("$A $Field", s)
+```
+Substructures are supported
+```go
+type t struct {
+	A     string
+	Field int
+}
+var s = t{
+	A:     "str",
+	Field: 12,
+}
+var d struct {
+	F     t
+	Entry float64
+}
+d.F = s
+d.Entry = 0.5
+res := format.Formatg("$F.A $F.Field $Entry", d)
+```
+Also, `map[T]V` are supported as well. `V` can be any type and `T` must be one of 
+1) string
+2) one of integer (including unsigned) types 
+3) `fmt.Stringer` type.
+
+##### Low level usage
 ```go
 package main
 

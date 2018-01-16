@@ -124,3 +124,31 @@ func TestFormatm(t *testing.T) {
 		"float": 4.5,
 	}))
 }
+
+func TestFormatg(t *testing.T) {
+	require.Equal(t, "a 2 4.5", Formatg("${key} ${num} ${float|1.1}", map[string]interface{}{
+		"key":   "a",
+		"num":   2,
+		"float": 4.5,
+	}))
+
+	type t1 struct {
+		A string
+		B int
+	}
+	s1 := t1{
+		A: "a1",
+		B: 2,
+	}
+	require.Equal(t, "a1→2", Formatg("${A}→$B", s1))
+
+	var s2 struct {
+		t1
+		C float64
+		D t1
+	}
+	s2.t1 = s1
+	s2.C = 0.5
+	s2.D = s1
+	require.Equal(t, "a1 2 0.5 2 a1", Formatg("$A $B ${C|1.1} ${D.B} ${D.A}", s2))
+}
