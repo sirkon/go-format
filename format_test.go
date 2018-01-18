@@ -152,3 +152,52 @@ func TestFormatg(t *testing.T) {
 	s2.D = s1
 	require.Equal(t, "a1 2 0.5 2 a1", Formatg("$A $B ${C|1.1} ${D.B} ${D.A}", s2))
 }
+
+func TestReadmeFormatp(t *testing.T) {
+	res := Formatp("$ ${} $1 ${0}", 1, 2)
+	require.Equal(t, "1 2 2 1", res)
+}
+
+func TestReamdeFormatm(t *testing.T) {
+	res := Formatm("${name} $count ${weight|1.2}", Values{
+		"name":   "name",
+		"count":  12,
+		"weight": 0.79,
+	})
+	require.Equal(t, "name 12 0.79", res)
+}
+
+type T struct {
+	A     string
+	Field int
+}
+
+func TestReadmeFormatg(t *testing.T) {
+	var s = T{
+		A:     "str",
+		Field: 12,
+	}
+	var d struct {
+		F     T
+		Entry float64
+	}
+	d.F = s
+	d.Entry = 0.5
+	res := Formatg("$F.A $F.Field $Entry", d)
+	require.Equal(t, "str 12 0.500000", res)
+
+	v := map[int]string{
+		1:  "bc",
+		12: "bd",
+	}
+	res = Formatg("$1-$12", v)
+	require.Equal(t, "bc-bd", res)
+}
+
+func TestReadmeDateArithmetics(t *testing.T) {
+	tm := time.Date(2018, 1, 18, 22, 57, 37, 12, time.UTC)
+	res := Formatm("${ date + 1 day | %Y-%m-%d %H:%M:%S }", Values{
+		"date": tm,
+	})
+	require.Equal(t, "2018-01-19 22:57:37", res)
+}
