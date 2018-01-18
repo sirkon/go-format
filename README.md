@@ -12,6 +12,10 @@ or
 dep ensure -add github.com/sirkon/go-format
 ```
 
+### Rationale behind
+In analytical systems you need to deal with time intervals. This formatter helps to achieve this right at the configuration
+file level.
+
 ### Examples
 
 ##### Positional parameters, you can use `${1}`, `${2}` to address specific parameter (by number)
@@ -94,9 +98,7 @@ Date arithmetics allows following expression values:
 * second/seconds
 
 Where *year* and *years* (and other couples) are equivalent (*5 years* is nicer than *5 year*, just like *1 year* is prefered over *1 years*).
-There's a limitation though, longer period must precedes shorter one, i.e. the following expression is valid.
-
-Examples of valid time delta expressions:
+There's a limitation though, longer period must precedes shorter one, i.e. following expressions are valid.
 ```
 + 1 year + 5 weeks + 3 days + 12 seconds
 + 25 years + 3 months
@@ -104,18 +106,16 @@ Examples of valid time delta expressions:
 + 2 year + 15 weeks + 1 second
 ```
 
-invalid time delta expression
+and this one is invalid
 ```
 + 1 week + 5 months
 ```
-
-month must precedes a week
+as a month must precedes a week
 
 
 ##### Low level usage, how it is doing in the background
 ```go
 package main
-
 
 import (
 	"fmt"
@@ -123,7 +123,6 @@ import (
 	
 	"github.com/sirkon/go-format"
 )
-
 
 func main() {
 	bctx := format.NewContextBuilder()
@@ -134,7 +133,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	
 	res, err := format.Format(
 		"${name} will be registered by $count independent sources in ${ time + 1 day | %Y-%m-%d } at ${ time | %H:%M:%S }",
 		ctx)
