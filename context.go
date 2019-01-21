@@ -28,3 +28,11 @@ func (ctx contextFromBuilder) GetFormatter(name string) (res Formatter, err erro
 	}
 	return
 }
+
+// contextFunc implementation of context using given func as a source of information
+type contextFunc func(string) string
+
+func (f contextFunc) GetFormatter(name string) (Formatter, error) {
+	value := f(name)
+	return stringFormatter(value), nil
+}

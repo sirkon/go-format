@@ -112,7 +112,7 @@ func TestClarify(t *testing.T) {
 	}
 }
 
-func TestFormatf(t *testing.T) {
+func TestFormatp(t *testing.T) {
 	require.Equal(t, "a 2 4.5 2 2018", Formatp("${} ${} ${|1.1} ${1} ${|%Y}", "a", 2, 4.5, time.Date(2018, 10, 19, 18, 0, 5, 0, time.UTC)))
 	require.Equal(t, "a a", Formatp("$ $0", "a"))
 }
@@ -200,4 +200,38 @@ func TestReadmeDateArithmetics(t *testing.T) {
 		"date": tm,
 	})
 	require.Equal(t, "2018-01-19 22:57:37", res)
+}
+
+func TestFormatf(t *testing.T) {
+	tests := []struct {
+		name   string
+		format string
+		data   func(string) string
+		want   string
+	}{
+		{
+			name:   "typical",
+			format: "${name} ${value} ${location} - ${fake}",
+			data: func(s string) string {
+				switch s {
+				case "name":
+					return "Denis"
+				case "value":
+					return "1k"
+				case "location":
+					return "cbx"
+				default:
+					return "<nil>"
+				}
+			},
+			want: "Denis 1k cbx - <nil>",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Formatf(tt.format, tt.data); got != tt.want {
+				t.Errorf("Formatf() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

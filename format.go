@@ -147,3 +147,13 @@ func Formatg(format string, data interface{}) string {
 	}
 	return res
 }
+
+// Formatf is a formatting where values are taken form given func(string) string function
+func Formatf(format string, data func(string) string) string {
+	ctx := contextFunc(data)
+	res, err := Format(format, ctx)
+	if err != nil {
+		panic(err)
+	}
+	return res
+}

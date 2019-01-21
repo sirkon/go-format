@@ -79,6 +79,21 @@ res := format.Formatg("$1-$12")
 // res = "bc-bc"
 ```
 
+##### Use given `func(string) string` function as a source of values
+
+It is possible to use function like `os.Getenv` as a source of values. Use `format.Formatf` function for this:
+
+
+```go
+res := format.Formatf("${HOSTTYPE} ${COLUMNS}", os.Getenv)
+// res = "x86_64 80"
+```
+Check:
+
+![pic](Untitled.png)
+
+Of course, you can use every `func(string) string` function, not just `os.Getenv`
+
 ##### Date arithmetics
 ```go
 t := time.Date(2018, 1, 18, 22, 57, 37, 12, time.UTC)
