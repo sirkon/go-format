@@ -84,6 +84,12 @@ func isWord(r rune) bool {
 
 func nipOpenIdentifier(content string) (string, string, error) {
 	i := 0
+	for i < len(content) && unicode.IsDigit(rune(content[i])) {
+		i++
+	}
+	if i > 0 {
+		return content[:i], content[i:], nil
+	}
 	for i < len(content) && isWord(rune(content[i])) {
 		i++
 	}
