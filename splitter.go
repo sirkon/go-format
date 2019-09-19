@@ -133,7 +133,7 @@ func (s *Splitter) Split() bool {
 	var err error
 	var formatter Formatter
 
-	if len(s.rest) == 0 {
+	if len(s.rest) == 0 || s.rest == "$" {
 		ident = strconv.Itoa(s.count)
 		s.count++
 		formatter, err = s.context.GetFormatter(ident)
@@ -142,6 +142,9 @@ func (s *Splitter) Split() bool {
 			return false
 		}
 		s.cur, s.err = formatter.Format("")
+		if len(s.rest) > 0 {
+			s.rest = s.rest[len(s.rest):]
+		}
 		return s.err == nil
 	} else if isWord(rune(s.rest[1])) {
 		// This is a simple subsitution
@@ -204,7 +207,7 @@ func (s *Splitter) Split() bool {
 		pos := strings.IndexByte(s.rest, '|')
 		if pos < 0 {
 			// Let the clarification needs a format
-			s.err = fmt.Errorf("Couldn't find clarification end in %s", s.rest)
+			s.err = fmt.Errorf("couldn't find clarification end in %s", s.rest)
 			return false
 		}
 		clarification := s.rest[:pos]

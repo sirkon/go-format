@@ -159,6 +159,11 @@ func TestReadmeFormatp(t *testing.T) {
 	require.Equal(t, "1 2 2 1", res)
 }
 
+func TestRegression(t *testing.T) {
+	require.Equal(t, "1", Formatp("$", "1"))
+	require.Equal(t, "", Formatp("", "1"))
+}
+
 func TestReamdeFormatm(t *testing.T) {
 	res := Formatm("${name} $count ${weight|1.2}", Values{
 		"name":   "name",
