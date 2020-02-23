@@ -5,11 +5,7 @@ Simple string formatting tool with date arithmetics and format (strftime) suppor
 
 ### Installation
 ```bash
-go get github.com/sirkon/go-format
-```
-or
-```bash
-dep ensure -add github.com/sirkon/go-format
+GO111MODULE=on go get github.com/sirkon/go-format
 ```
 
 ### Rationale behind
