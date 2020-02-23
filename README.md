@@ -1,7 +1,7 @@
 # go-format
 [![Build Status](https://travis-ci.org/sirkon/go-format.svg?branch=master)](https://travis-ci.org/sirkon/go-format)
 
-Simple string formatting tool with date arithmetics and format (strftime) support
+Simple string formatting tool with date arithmetics and format (strftime) support. Be prepared though: shortcut functions like `format.Fortmatp` are aimed to be used in my code generations tools where the correct formatting matters, thus they are just panics on incorrect calls, such as parameters and formatting mismatch and this works really good for them.
 
 ### Installation
 ```bash
