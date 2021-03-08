@@ -1,4 +1,6 @@
-module github.com/sirkon/go-format
+module github.com/sirkon/go-format/v2
+
+go 1.16
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect

@@ -189,7 +189,7 @@ func TestReadmeFormatg(t *testing.T) {
 	}
 	d.F = s
 	d.Entry = 0.5
-	res := Formatg("$F.A $F.Field $Entry", d)
+	res := Formatg("${F.A} ${F.Field} $Entry", d)
 	require.Equal(t, "str 12 0.500000", res)
 
 	v := map[int]string{

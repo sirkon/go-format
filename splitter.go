@@ -34,7 +34,7 @@ func nipString(content string) (res string, rest string, err error) {
 	for {
 		pos = strings.IndexByte(content, '"')
 		if pos < 0 {
-			err = fmt.Errorf("Didn't find string end at %s", content)
+			err = fmt.Errorf("didn't find string end at %s", content)
 			return
 		}
 		res += content[:pos]
@@ -58,7 +58,7 @@ func nipString(content string) (res string, rest string, err error) {
 
 func nipIdentifier(content string) (string, string, error) {
 	if len(content) == 0 {
-		return "", "", fmt.Errorf("Expected heading identifier or }, got empty string instead")
+		return "", "", fmt.Errorf("expected heading identifier or }, got empty string instead")
 	}
 	if content[0] == '|' || content[0] == '}' {
 		return "", content, nil
@@ -72,7 +72,7 @@ func nipIdentifier(content string) (string, string, error) {
 		return "", content, nil
 	}
 	if i == 0 {
-		return "", "", fmt.Errorf("Expected heading identifier in %s", content)
+		return "", "", fmt.Errorf("expected heading identifier in %s", content)
 	}
 
 	return content[:i], content[i:], nil
@@ -80,6 +80,10 @@ func nipIdentifier(content string) (string, string, error) {
 
 func isWord(r rune) bool {
 	return unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_' || r == '.'
+}
+
+func isSimpleWord(r rune) bool {
+	return unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_'
 }
 
 func nipOpenIdentifier(content string) (string, string, error) {
@@ -90,7 +94,7 @@ func nipOpenIdentifier(content string) (string, string, error) {
 	if i > 0 {
 		return content[:i], content[i:], nil
 	}
-	for i < len(content) && isWord(rune(content[i])) {
+	for i < len(content) && isSimpleWord(rune(content[i])) {
 		i++
 	}
 
@@ -221,7 +225,7 @@ func (s *Splitter) Split() bool {
 	s.rest = s.rest[1:]
 	s.rest = strings.TrimLeft(s.rest, " \t\r\n")
 	if len(s.rest) == 0 {
-		s.err = fmt.Errorf("Couldn't find format end in %s", s.rest)
+		s.err = fmt.Errorf("couldn't find format end in %s", s.rest)
 		return false
 	}
 
@@ -233,14 +237,14 @@ func (s *Splitter) Split() bool {
 		}
 		pos = strings.IndexByte(s.rest, '}')
 		if pos < 0 {
-			s.err = fmt.Errorf("Couldn't find format end in %s", s.rest)
+			s.err = fmt.Errorf("couldn't find format end in %s", s.rest)
 			return false
 		}
 		s.rest = s.rest[pos+1:]
 	} else {
 		pos = strings.IndexByte(s.rest, '}')
 		if pos < 0 {
-			s.err = fmt.Errorf("Couldn't find format end in %s", s.rest)
+			s.err = fmt.Errorf("couldn't find format end in %s", s.rest)
 			return false
 		}
 		format = strings.TrimSpace(s.rest[:pos])

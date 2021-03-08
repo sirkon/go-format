@@ -5,7 +5,7 @@ Simple string formatting tool with date arithmetics and format (strftime) suppor
 
 ### Installation
 ```bash
-GO111MODULE=on go get github.com/sirkon/go-format
+GO111MODULE=on go get github.com/sirkon/go-format/v2
 ```
 
 ### Rationale behind
@@ -62,7 +62,7 @@ var d struct {
 }
 d.F = s
 d.Entry = 0.5
-res := format.Formatg("$F.A $F.Field $Entry", d)
+res := format.Formatg("${F.A} ${F.Field} $Entry", d)
 // res = "str 12 0.500000"
 ```
 
