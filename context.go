@@ -24,7 +24,11 @@ func (ctx contextFromBuilder) GetFormatter(name string) (res Formatter, err erro
 		for i, key := range formatters {
 			formatters[i] = "\t" + key
 		}
-		err = fmt.Errorf("Unknown formatter `%s`, only these are available:%s\n\n", name, strings.Join(formatters, "\n"))
+		err = fmt.Errorf(
+			"unknown formatter `%s`, only these are available:\n%s\n",
+			name,
+			strings.Join(formatters, "\n"),
+		)
 	}
 	return
 }

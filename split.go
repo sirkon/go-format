@@ -102,17 +102,20 @@ func nipOpenIdentifier(content string) (string, string, error) {
 }
 
 func locateABuck(rest string) int {
-	for i := 0; i < len(rest); i++ {
-		if rest[i] == '$' {
-			if i == len(rest)-1 {
-				return i
-			}
-			if rest[i+1] == '$' {
-				continue
-			}
-			return i
+	var off int
+	for i := strings.IndexByte(rest, '$'); i >= 0; i = strings.IndexByte(rest, '$') {
+		if i == len(rest)-1 {
+			return i + off
 		}
+
+		if rest[i+1] != '$' {
+			return i + off
+		}
+
+		off += i + 2
+		rest = rest[i+2:]
 	}
+
 	return -1
 }
 

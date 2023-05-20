@@ -14,6 +14,12 @@ file level.
 
 ### Examples
 
+##### How to escape $
+```go
+res := format.Formatp("$$0 $0", 1)
+// rest = "$0 1"
+```
+
 ##### Positional parameters, you can use `${1}`, `${2}` to address specific parameter (by number)
 ```go
 res := format.Formatp("$ ${} $1 ${0}", 1, 2)
@@ -29,7 +35,7 @@ res := format.Formatm("${name} $count ${weight|1.2}", format.Values{
 	"weight": 0.79,
 })
 // res = "name 12 0.79"
-``` 
+```
 
 ##### Named parameters via type guesses
 ```go

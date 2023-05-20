@@ -13,11 +13,11 @@ type Values = map[string]interface{}
 // Format function
 func Format(format string, context Context) (string, error) {
 	splitter := NewSplitter(format, context)
-	res := ""
+	var res strings.Builder
 	for splitter.Split() {
-		res += splitter.Text()
+		res.WriteString(splitter.Text())
 	}
-	return res, splitter.Err()
+	return res.String(), splitter.Err()
 }
 
 // Formatp is a formatting with positional arguments
